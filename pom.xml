@@ -11,8 +11,8 @@
         <version>3.2.0</version>
     </parent>
 
-    <groupId>com.recipe</groupId>
-    <artifactId>recipe-app</artifactId>
+    <groupId>com.fresca</groupId>
+    <artifactId>AirportAPI</artifactId>
     <version>1.0</version>
 
     <properties>
