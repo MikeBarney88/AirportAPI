@@ -10,5 +10,9 @@ import java.util.Optional;
 
 @Repository
 public interface AirportRepository extends JpaRepository<Airport, Long> {
+    Optional<Airport> findByCode(String code);
     List<Airport> findByCityId(Long cityId);
+
+    @Query("SELECT airport FROM Airport airport JOIN FETCH airport.city")
+    List<Airport> findAllWithCity();
 }
