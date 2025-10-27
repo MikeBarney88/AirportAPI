@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/airports")
@@ -13,37 +14,46 @@ public class AirportController {
     @Autowired
     private AirportService airportService;
 
+    // POST - Create a new airport
     @PostMapping
     public ResponseEntity<Airport> createAirport(@RequestBody Airport airport, @RequestParam Long cityId) {
         Airport createdAirport = airportService.createAirport(airport, cityId);
         return new ResponseEntity<>(createdAirport, HttpStatus.CREATED);
     }
 
+    // GET - Get all airports
     @GetMapping
     public ResponseEntity<List<Airport>> getAllAirports() {
         List<Airport> airports = airportService.getAllAirports();
         return new ResponseEntity<>(airports, HttpStatus.OK);
     }
 
+    // GET - Get all airports with city information
     @GetMapping("/with-city")
     public ResponseEntity<List<Airport>> getAllAirportsWithCity() {
         List<Airport> airports = airportService.getAllAirportsWithCity();
         return new ResponseEntity<>(airports, HttpStatus.OK);
     }
 
+    // GET - Get airport by ID
     @GetMapping("/{id}")
     public ResponseEntity<Airport> getAirportById(@PathVariable Long id) {
-        return airportService.getAirportById(id)
-                .map(airport -> new ResponseEntity<>(airport, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        Optional<Airport> airportOpt = airportService.getAirportById(id);
+        if (airportOpt.isPresent()) {
+            return new ResponseEntity<>(airportOpt.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
+    // GET - Get airports by city
     @GetMapping("/city/{cityId}")
     public ResponseEntity<List<Airport>> getAirportsByCity(@PathVariable Long cityId) {
         List<Airport> airports = airportService.getAirportsByCityId(cityId);
         return new ResponseEntity<>(airports, HttpStatus.OK);
     }
 
+    // PUT - Update an airport
     @PutMapping("/{id}")
     public ResponseEntity<Airport> updateAirport(@PathVariable Long id, @RequestBody Airport airport) {
         try {
@@ -54,6 +64,7 @@ public class AirportController {
         }
     }
 
+    // DELETE - Delete an airport
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAirport(@PathVariable Long id) {
         try {
