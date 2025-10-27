@@ -8,34 +8,31 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/airports")
+@RequestMapping("/airports")
 public class AirportController {
 
     @Autowired
     private AirportService airportService;
 
-    // POST - Create a new airport
     @PostMapping
     public ResponseEntity<Airport> createAirport(@RequestBody Airport airport, @RequestParam Long cityId) {
         Airport createdAirport = airportService.createAirport(airport, cityId);
         return new ResponseEntity<>(createdAirport, HttpStatus.CREATED);
     }
 
-    // GET - Get all airports
     @GetMapping
     public ResponseEntity<List<Airport>> getAllAirports() {
         List<Airport> airports = airportService.getAllAirports();
         return new ResponseEntity<>(airports, HttpStatus.OK);
     }
 
-    // GET - Get all airports with city information
     @GetMapping("/with-city")
     public ResponseEntity<List<Airport>> getAllAirportsWithCity() {
         List<Airport> airports = airportService.getAllAirportsWithCity();
         return new ResponseEntity<>(airports, HttpStatus.OK);
     }
 
-    // GET - Get airport by ID
+
     @GetMapping("/{id}")
     public ResponseEntity<Airport> getAirportById(@PathVariable Long id) {
         Optional<Airport> airportOpt = airportService.getAirportById(id);
@@ -46,14 +43,12 @@ public class AirportController {
         }
     }
 
-    // GET - Get airports by city
     @GetMapping("/city/{cityId}")
     public ResponseEntity<List<Airport>> getAirportsByCity(@PathVariable Long cityId) {
         List<Airport> airports = airportService.getAirportsByCityId(cityId);
         return new ResponseEntity<>(airports, HttpStatus.OK);
     }
 
-    // PUT - Update an airport
     @PutMapping("/{id}")
     public ResponseEntity<Airport> updateAirport(@PathVariable Long id, @RequestBody Airport airport) {
         try {
@@ -64,7 +59,6 @@ public class AirportController {
         }
     }
 
-    // DELETE - Delete an airport
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAirport(@PathVariable Long id) {
         try {

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/passengers")
+@RequestMapping("/passengers")
 public class PassengerController {
 
     @Autowired
