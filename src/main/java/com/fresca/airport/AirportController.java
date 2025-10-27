@@ -5,9 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/airports")
+@RequestMapping("/airports")
 public class AirportController {
 
     @Autowired
@@ -31,11 +32,15 @@ public class AirportController {
         return new ResponseEntity<>(airports, HttpStatus.OK);
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<Airport> getAirportById(@PathVariable Long id) {
-        return airportService.getAirportById(id)
-                .map(airport -> new ResponseEntity<>(airport, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        Optional<Airport> airportOpt = airportService.getAirportById(id);
+        if (airportOpt.isPresent()) {
+            return new ResponseEntity<>(airportOpt.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/city/{cityId}")
