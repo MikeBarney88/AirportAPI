@@ -1,4 +1,4 @@
-package com.fresca.aircraft.service;
+package com.fresca.aircraft;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

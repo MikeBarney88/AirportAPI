@@ -1,6 +1,8 @@
-package com.fresca.aircraft.domain;
+package com.fresca.aircraft;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fresca.passenger.Passenger;
+import com.fresca.airport.Airport;
 import jakarta.persistence.*;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -25,7 +27,7 @@ public class Aircraft {
             inverseJoinColumns = @JoinColumn(name = "passenger_id")
     )
     @JsonIgnore
-    private Set<com.fresca.passenger.domain.Passenger> passengers = new LinkedHashSet<>();
+    private Set<Passenger> passengers = new LinkedHashSet<>();
 
     @ManyToMany
     @JoinTable(
@@ -34,8 +36,7 @@ public class Aircraft {
             inverseJoinColumns = @JoinColumn(name = "airport_id")
     )
     @JsonIgnore
-    private Set<com.fresca.airport.domain.Airport> airports = new LinkedHashSet<>();
-
+    private Set<Airport> airports = new LinkedHashSet<>();
 
     public Aircraft() {}
 
@@ -53,18 +54,14 @@ public class Aircraft {
     public void setAirlineName(String airlineName) { this.airlineName = airlineName; }
     public int getNumberOfPassengers() { return numberOfPassengers; }
     public void setNumberOfPassengers(int numberOfPassengers) { this.numberOfPassengers = numberOfPassengers; }
-    public Set<com.fresca.passenger.domain.Passenger> getPassengers() { return passengers; }
-    public Set<com.fresca.airport.domain.Airport> getAirports() { return airports; }
 
+    public Set<Passenger> getPassengers() { return passengers; }
+    public Set<Airport> getAirports() { return airports; }
 
-    public void addPassenger(com.fresca.passenger.domain.Passenger p) { passengers.add(p); }
-
-    public void removePassenger(com.fresca.passenger.domain.Passenger p) { passengers.remove(p); }
-
-    public void addAirport(com.fresca.airport.domain.Airport a) { airports.add(a); }
-
-    public void removeAirport(com.fresca.airport.domain.Airport a) { airports.remove(a); }
-
+    public void addPassenger(Passenger p) { passengers.add(p); }
+    public void removePassenger(Passenger p) { passengers.remove(p); }
+    public void addAirport(Airport a) { airports.add(a); }
+    public void removeAirport(Airport a) { airports.remove(a); }
 
     @Override public boolean equals(Object o) {
         if (this == o) return true;
@@ -72,6 +69,6 @@ public class Aircraft {
         Aircraft aircraft = (Aircraft) o;
         return id != null && Objects.equals(id, aircraft.id);
     }
+
     @Override public int hashCode() { return getClass().hashCode(); }
 }
-
