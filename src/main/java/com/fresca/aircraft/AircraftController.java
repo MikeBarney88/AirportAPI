@@ -1,7 +1,5 @@
-package com.fresca.aircraft.api;
+package com.fresca.aircraft;
 
-import com.fresca.aircraft.domain.Aircraft;
-import com.fresca.aircraft.service.AircraftService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

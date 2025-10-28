@@ -1,11 +1,11 @@
-package com.fresca.aircraft.service;
+package com.fresca.aircraft;
 
-import com.fresca.aircraft.domain.Aircraft;
-import com.fresca.aircraft.repo.AircraftRepository;
+import com.fresca.airport.Airport;
+import com.fresca.passenger.Passenger;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional; // Spring's Tx (works best with Spring)
 
 import java.util.List;
 
@@ -18,7 +18,6 @@ public class AircraftService {
     @PersistenceContext
     private EntityManager em;
 
-
     public AircraftService(AircraftRepository repo) {
         this.repo = repo;
     }
@@ -30,11 +29,13 @@ public class AircraftService {
     }
 
     // list aircraft
+    @Transactional(readOnly = true)
     public List<Aircraft> findAll() {
         return repo.findAll();
     }
 
     // get aircraft
+    @Transactional(readOnly = true)
     public Aircraft findById(Long id) {
         return repo.findById(id)
                 .orElseThrow(() -> new NotFoundException("Aircraft " + id + " not found"));
@@ -46,43 +47,43 @@ public class AircraftService {
         existing.setType(body.getType());
         existing.setAirlineName(body.getAirlineName());
         existing.setNumberOfPassengers(body.getNumberOfPassengers());
-        return existing;
+        return repo.save(existing);
     }
 
     // delete aircraft
     public void delete(Long id) {
-        var existing = findById(id);
-        repo.delete(existing);
+        repo.delete(findById(id));
     }
 
     // link passenger
     public Aircraft linkPassenger(Long aircraftId, Long passengerId) {
         var aircraft = findById(aircraftId);
-        var passengerRef = em.getReference(com.fresca.passenger.domain.Passenger.class, passengerId);
+        var passengerRef = em.getReference(Passenger.class, passengerId);
         aircraft.addPassenger(passengerRef);
-        return aircraft;
+        return repo.save(aircraft);
     }
 
     // unlink passenger
     public void unlinkPassenger(Long aircraftId, Long passengerId) {
         var aircraft = findById(aircraftId);
-        var passengerRef = em.getReference(com.fresca.passenger.domain.Passenger.class, passengerId);
+        var passengerRef = em.getReference(Passenger.class, passengerId);
         aircraft.removePassenger(passengerRef);
+        repo.save(aircraft);
     }
 
     // link airport
     public Aircraft linkAirport(Long aircraftId, Long airportId) {
         var aircraft = findById(aircraftId);
-        var airportRef = em.getReference(com.fresca.airport.domain.Airport.class, airportId);
+        var airportRef = em.getReference(Airport.class, airportId);
         aircraft.addAirport(airportRef);
-        return aircraft;
+        return repo.save(aircraft);
     }
 
     // unlink airport
     public void unlinkAirport(Long aircraftId, Long airportId) {
         var aircraft = findById(aircraftId);
-        var airportRef = em.getReference(com.fresca.airport.domain.Airport.class, airportId);
+        var airportRef = em.getReference(Airport.class, airportId);
         aircraft.removeAirport(airportRef);
+        repo.save(aircraft);
     }
 }
-

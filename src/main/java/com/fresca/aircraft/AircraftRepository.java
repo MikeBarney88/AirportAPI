@@ -1,6 +1,5 @@
-package com.fresca.aircraft.repo;
+package com.fresca.aircraft;
 
-import com.fresca.aircraft.domain.Aircraft;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AircraftRepository extends JpaRepository<Aircraft, Long> {
