@@ -13,11 +13,15 @@ public class City {
     private long id;
 
     private String name, state;
-    private double population;
+    private long population;
 
 
     //Constructor(s)
-    public City(String name, String state, double population) {
+    public City() {
+
+    }
+
+    public City(String name, String state, long population) {
         this.name = name;
         this.state = state;
         this.population = population;
@@ -26,7 +30,7 @@ public class City {
 
     //Instance Methods
     public String toString() {
-        return String.format("City[id = %d, name = \"%s\", state = \"%s\", population = %,.0f]", this.id, this.name, this.state, this.population);
+        return String.format("City[id = %d, name = \"%s\", state = \"%s\", population = %d]", this.id, this.name, this.state, this.population);
     }
 
 
@@ -43,7 +47,7 @@ public class City {
         return this.state;
     }
 
-    public double getPopulation() {
+    public long getPopulation() {
         return this.population;
     }
 
@@ -61,7 +65,7 @@ public class City {
         this.state = state;
     }
 
-    public void setPopulation(double population) {
+    public void setPopulation(long population) {
         this.population = population;
     }
 }
