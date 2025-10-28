@@ -1,10 +1,9 @@
 package com.fresca.passenger;
 
-import com.flightapi.city.City;
-import com.flightapi.city.CityRepository;
-import com.flightapi.aircraft.Aircraft;
-import com.flightapi.aircraft.AircraftRepository;
-import com.fresca.airport.Airport;
+import com.fresca.city.City;
+import com.fresca.city.CityRepository;
+import com.fresca.aircraft.Aircraft;
+import com.fresca.aircraft.AircraftRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

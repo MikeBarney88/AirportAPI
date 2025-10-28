@@ -1,5 +1,7 @@
 package com.fresca.airport;
 
+import com.fresca.city.City;
+import com.fresca.city.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -15,9 +17,9 @@ public class AirportService {
     private CityRepository cityRepository;
 
     public Airport createAirport(Airport airport, Long CityId) {
-        Optional<City> cityOpt = cityRepository.findId(cityId);
+        Optional<City> cityOpt = cityRepository.findById(CityId);
         if (cityOpt.isEmpty()) {
-            throw new IllegalArgumentException("City not found with id: " + cityId);
+            throw new IllegalArgumentException("City not found with id: " + CityId);
         }
         City city = cityOpt.get();
         airport.setCity(city);
