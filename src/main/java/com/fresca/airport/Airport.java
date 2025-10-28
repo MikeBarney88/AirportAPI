@@ -1,6 +1,8 @@
 package com.fresca.airport;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fresca.aircraft.Aircraft;
+import com.fresca.city.City;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 
