@@ -37,6 +37,7 @@ public class PassengerController {
         }
     }
 
+    //Needs to be reworked. Should return List<Aircraft> of planes the passenger ({id}) has flown on.
     @GetMapping("/{id}/aircraft")
     public ResponseEntity<Passenger> getPassengerWithAircraft(@PathVariable Long id) {
         Optional<Passenger> passengerOpt = passengerService.getPassengerWithAircraft(id);

@@ -15,24 +15,19 @@ public class CityController {
 
 
     //GET Routes
-    @GetMapping("/city")
+    @GetMapping("/cities")
     public List<City> getAllCities() {
         return cityService.getAllCities();
     }
 
-    @GetMapping("/city/{id}")
+    @GetMapping("/cities/{id}")
     public City getCityById(@PathVariable long id) {
         return cityService.getCityById(id);
     }
 
-    @GetMapping("/city/{state}")
-    public List<City> getCitiesByState(@PathVariable String state) {
-        return cityService.getCitiesByState(state);
-    }
-
-    @GetMapping("/city_search")
-    public List<City> searchCities(@RequestParam(value = "city_name", required = false) String cityName,
-                                   @RequestParam(value = "city_state", required = false) String cityState) {
+    @GetMapping("/city-search")
+    public List<City> searchCities(@RequestParam(value = "name", required = false) String cityName,
+                                   @RequestParam(value = "state", required = false) String cityState) {
         ArrayList<City> searchResults = new ArrayList<>();
 
         if (cityName != null && cityState == null) {
@@ -49,7 +44,7 @@ public class CityController {
     }
 
     //POST Route
-    @PostMapping("/city")
+    @PostMapping("/cities")
     public City postCreateCity(@RequestBody City city) {
         return cityService.postCreateCity(city);
     }
