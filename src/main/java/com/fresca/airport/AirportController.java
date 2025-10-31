@@ -26,14 +26,6 @@ public class AirportController {
         return new ResponseEntity<>(airports, HttpStatus.OK);
     }
 
-    //Is this necessary with the existence of "city/{cityId}" mapping?
-    @GetMapping("/with-city")
-    public ResponseEntity<List<Airport>> getAllAirportsWithCity() {
-        List<Airport> airports = airportService.getAllAirportsWithCity();
-        return new ResponseEntity<>(airports, HttpStatus.OK);
-    }
-
-
     @GetMapping("/{id}")
     public ResponseEntity<Airport> getAirportById(@PathVariable Long id) {
         Optional<Airport> airportOpt = airportService.getAirportById(id);

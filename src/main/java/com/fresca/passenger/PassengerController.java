@@ -1,5 +1,6 @@
 package com.fresca.passenger;
 
+import com.fresca.aircraft.Aircraft;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,12 +38,12 @@ public class PassengerController {
         }
     }
 
-    //Needs to be reworked. Should return List<Aircraft> of planes the passenger ({id}) has flown on.
     @GetMapping("/{id}/aircraft")
-    public ResponseEntity<Passenger> getPassengerWithAircraft(@PathVariable Long id) {
+    public ResponseEntity<List<Aircraft>> getPassengerWithAircraft(@PathVariable Long id) {
         Optional<Passenger> passengerOpt = passengerService.getPassengerWithAircraft(id);
         if (passengerOpt.isPresent()) {
-            return new ResponseEntity<>(passengerOpt.get(), HttpStatus.OK);
+            List<Aircraft> aircraft = passengerOpt.get().getAircraft();
+            return new ResponseEntity<>(aircraft, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

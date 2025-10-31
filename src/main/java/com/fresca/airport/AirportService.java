@@ -30,10 +30,6 @@ public class AirportService {
         return airportRepository.findAll();
     }
 
-    public List<Airport> getAllAirportsWithCity() {
-        return airportRepository.findAllWithCity();
-    }
-
     public Optional<Airport> getAirportById(Long id) {
         return airportRepository.findById(id);
     }
