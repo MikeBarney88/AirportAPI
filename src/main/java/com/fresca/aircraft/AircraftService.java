@@ -22,26 +22,29 @@ public class AircraftService {
         this.repo = repo;
     }
 
-    // create aircraft
     public Aircraft create(Aircraft body) {
         var toSave = new Aircraft(body.getType(), body.getAirlineName(), body.getNumberOfPassengers());
         return repo.save(toSave);
     }
 
-    // list aircraft
     @Transactional(readOnly = true)
     public List<Aircraft> findAll() {
         return repo.findAll();
     }
 
-    // get aircraft
     @Transactional(readOnly = true)
     public Aircraft findById(Long id) {
         return repo.findById(id)
                 .orElseThrow(() -> new NotFoundException("Aircraft " + id + " not found"));
     }
 
-    // update aircraft
+    @Transactional(readOnly = true)
+    public Aircraft findByIdWithAirports(Long id) {
+        Aircraft aircraft = findById(id);
+        aircraft.getAirports().size();
+        return aircraft;
+    }
+
     public Aircraft update(Long id, Aircraft body) {
         var existing = findById(id);
         existing.setType(body.getType());
@@ -50,12 +53,10 @@ public class AircraftService {
         return repo.save(existing);
     }
 
-    // delete aircraft
     public void delete(Long id) {
         repo.delete(findById(id));
     }
 
-    // link passenger
     public Aircraft linkPassenger(Long aircraftId, Long passengerId) {
         var aircraft = findById(aircraftId);
         var passengerRef = em.getReference(Passenger.class, passengerId);
@@ -63,7 +64,6 @@ public class AircraftService {
         return repo.save(aircraft);
     }
 
-    // unlink passenger
     public void unlinkPassenger(Long aircraftId, Long passengerId) {
         var aircraft = findById(aircraftId);
         var passengerRef = em.getReference(Passenger.class, passengerId);
@@ -71,7 +71,6 @@ public class AircraftService {
         repo.save(aircraft);
     }
 
-    // link airport
     public Aircraft linkAirport(Long aircraftId, Long airportId) {
         var aircraft = findById(aircraftId);
         var airportRef = em.getReference(Airport.class, airportId);
@@ -79,7 +78,6 @@ public class AircraftService {
         return repo.save(aircraft);
     }
 
-    // unlink airport
     public void unlinkAirport(Long aircraftId, Long airportId) {
         var aircraft = findById(aircraftId);
         var airportRef = em.getReference(Airport.class, airportId);
