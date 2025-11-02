@@ -1,5 +1,6 @@
 package com.fresca.passenger;
 
+import com.fresca.airport.Airport;
 import com.fresca.city.City;
 import com.fresca.city.CityRepository;
 import com.fresca.aircraft.Aircraft;
@@ -81,5 +82,9 @@ public class PassengerService {
 
         passenger.getAircraft().add(aircraft);
         return passengerRepository.save(passenger);
+    }
+
+    public List<Airport> getAllPassengerAirports() {
+        return passengerRepository.findAllPassengerAirports();
     }
 }

@@ -1,6 +1,7 @@
 package com.fresca.passenger;
 
 import com.fresca.aircraft.Aircraft;
+import com.fresca.airport.Airport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,5 +80,11 @@ public class PassengerController {
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/airports")
+    public ResponseEntity<List<Airport>> getAllPassengerAirports() {
+        List<Airport> airports = passengerService.getAllPassengerAirports();
+        return new ResponseEntity<>(airports, HttpStatus.OK);
     }
 }
