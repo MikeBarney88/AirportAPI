@@ -1,4 +1,5 @@
 package com.fresca.passenger;
+import com.fresca.airport.Airport;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,4 +17,7 @@ public interface PassengerRepository extends JpaRepository<Passenger, Long> {
 
     @Query("SELECT DISTINCT passenger FROM Passenger passenger LEFT JOIN FETCH passenger.aircraft WHERE passenger.id = :id")
     Optional<Passenger> findByIdWithAircraft(@Param("id") Long id);
+
+    @Query("SELECT DISTINCT a FROM Passenger p JOIN p.aircraft ac JOIN ac.airports a")
+    List<Airport> findAllPassengerAirports();
 }
