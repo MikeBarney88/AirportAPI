@@ -16,6 +16,9 @@ public class AirportService {
     @Autowired
     private CityRepository cityRepository;
 
+    @Autowired
+    private GateRepository gateRepository;
+
     public Airport createAirport(Airport airport, Long CityId) {
         Optional<City> cityOpt = cityRepository.findById(CityId);
         if (cityOpt.isEmpty()) {
@@ -59,4 +62,65 @@ public class AirportService {
         Airport airport = airportOpt.get();
         airportRepository.delete(airport);
     }
+    // Gate Management Methods
+
+    public Gate createGate(Gate gate, Long airportId) {
+        Optional<Airport> airportOpt = airportRepository.findById(airportId);
+        if (airportOpt.isEmpty()) {
+            throw new IllegalArgumentException("Airport not found with id: " + airportId);
+        }
+        Airport airport = airportOpt.get();
+        gate.setAirport(airport);
+
+        return gateRepository.save(gate);
+    }
+
+    public List<Gate> getGatesByAirportId(Long airportId) {
+        return gateRepository.findByAirportId(airportId);
+    }
+
+    public Optional<Gate> getGateByGateNumber(String gateNumber) {
+        return gateRepository.findByGateNumber(gateNumber);
+    }
+
+    public List<Gate> getAvailableGatesByAirport(Long airportId) {
+        return gateRepository.findByAirportIdAndStatus(airportId, Gate.GateStatus.AVAILABLE);
+    }
+
+    public Gate updateGateStatus(String gateNumber, Gate.GateStatus newStatus) {
+        Optional<Gate> gateOpt = gateRepository.findByGateNumber(gateNumber);
+        if (gateOpt.isEmpty()) {
+            throw new IllegalArgumentException("Gate not found: " + gateNumber);
+        }
+
+        Gate gate = gateOpt.get();
+        gate.setStatus(newStatus);
+
+        return gateRepository.save(gate);
+    }
+
+    public Gate updateGate(String gateNumber, Gate gateDetails) {
+        Optional<Gate> gateOpt = gateRepository.findByGateNumber(gateNumber);
+        if (gateOpt.isEmpty()) {
+            throw new IllegalArgumentException("Gate not found: " + gateNumber);
+        }
+
+        Gate gate = gateOpt.get();
+        gate.setGateNumber(gateDetails.getGateNumber());
+        gate.setTerminal(gateDetails.getTerminal());
+        gate.setStatus(gateDetails.getStatus());
+        gate.setCurrentFlight(gateDetails.getCurrentFlight());
+
+        return gateRepository.save(gate);
+    }
+
+    public void deleteGate(String gateNumber) {
+        Optional<Gate> gateOpt = gateRepository.findByGateNumber(gateNumber);
+        if (gateOpt.isEmpty()) {
+            throw new IllegalArgumentException("Gate not found: " + gateNumber);
+        }
+
+        gateRepository.delete(gateOpt.get());
+    }
 }
+
