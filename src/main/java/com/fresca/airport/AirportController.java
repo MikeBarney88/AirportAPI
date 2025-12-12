@@ -61,4 +61,68 @@ public class AirportController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    // Gate Management Endpoints
+
+    @PostMapping("/{airportId}/gates")
+    public ResponseEntity<Gate> createGate(@PathVariable Long airportId, @RequestBody Gate gate) {
+        try {
+            Gate createdGate = airportService.createGate(gate, airportId);
+            return new ResponseEntity<>(createdGate, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{airportId}/gates")
+    public ResponseEntity<List<Gate>> getAirportGates(@PathVariable Long airportId) {
+        List<Gate> gates = airportService.getGatesByAirportId(airportId);
+        return new ResponseEntity<>(gates, HttpStatus.OK);
+    }
+
+    @GetMapping("/{airportId}/gates/available")
+    public ResponseEntity<List<Gate>> getAvailableGates(@PathVariable Long airportId) {
+        List<Gate> gates = airportService.getAvailableGatesByAirport(airportId);
+        return new ResponseEntity<>(gates, HttpStatus.OK);
+    }
+
+    @GetMapping("/gates/{gateNumber}")
+    public ResponseEntity<Gate> getGateByNumber(@PathVariable String gateNumber) {
+        Optional<Gate> gateOpt = airportService.getGateByGateNumber(gateNumber);
+        return gateOpt.map(gate -> new ResponseEntity<>(gate, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PutMapping("/gates/{gateNumber}/status")
+    public ResponseEntity<Gate> updateGateStatus(
+            @PathVariable String gateNumber,
+            @RequestParam Gate.GateStatus status) {
+        try {
+            Gate updatedGate = airportService.updateGateStatus(gateNumber, status);
+            return new ResponseEntity<>(updatedGate, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/gates/{gateNumber}")
+    public ResponseEntity<Gate> updateGate(
+            @PathVariable String gateNumber,
+            @RequestBody Gate gate) {
+        try {
+            Gate updatedGate = airportService.updateGate(gateNumber, gate);
+            return new ResponseEntity<>(updatedGate, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/gates/{gateNumber}")
+    public ResponseEntity<Void> deleteGate(@PathVariable String gateNumber) {
+        try {
+            airportService.deleteGate(gateNumber);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
