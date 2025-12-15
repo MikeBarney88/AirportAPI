@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/airports")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AirportController {
 
     @Autowired
