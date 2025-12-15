@@ -34,6 +34,10 @@ public class Airport {
     @JsonIgnore
     private List<Gate> gates = new ArrayList<>();
 
+    @OneToMany(mappedBy = "fromAirport")
+    @JsonIgnore
+    private List<Flight> departingFlights = new ArrayList<>();
+
     public Airport() {}
 
     public Airport(String name, String code) {
@@ -86,5 +90,13 @@ public class Airport {
 
     public void setGates(List<Gate> gates) {
         this.gates = gates;
+    }
+
+    public List<Flight> getDepartingFlights() {
+        return departingFlights;
+    }
+
+    public void setDepartingFlights(List<Flight> departingFlights) {
+        this.departingFlights = departingFlights;
     }
 }
