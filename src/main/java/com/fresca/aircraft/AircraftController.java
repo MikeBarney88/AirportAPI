@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/aircrafts")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AircraftController {
 
     private final AircraftService service;
