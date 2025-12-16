@@ -1,5 +1,6 @@
-package com.fresca.airport;
+package com.fresca.flight;
 
+import com.fresca.airport.Airport;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -26,9 +27,8 @@ public class Flight {
 
     public Flight() {}
 
-    public Flight(String flightNumber, Airport fromAirport, LocalDateTime scheduledTime, String status) {
+    public Flight(String flightNumber, LocalDateTime scheduledTime, String status) {
         this.flightNumber = flightNumber;
-        this.fromAirport = fromAirport;
         this.scheduledTime = scheduledTime;
         this.status = status;
     }

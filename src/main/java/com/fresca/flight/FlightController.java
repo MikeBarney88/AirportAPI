@@ -1,4 +1,4 @@
-package com.fresca.airport;
+package com.fresca.flight;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
