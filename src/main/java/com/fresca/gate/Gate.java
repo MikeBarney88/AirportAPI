@@ -1,5 +1,7 @@
-package com.fresca.airport;
+package com.fresca.gate;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fresca.airport.Airport;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -90,6 +92,12 @@ public class Gate {
         AVAILABLE,
         OCCUPIED,
         MAINTENANCE,
-        CLOSED
+        CLOSED;
+
+
+        @JsonCreator
+        public static GateStatus fromString(String value) {
+            return GateStatus.valueOf(value.toUpperCase());
+        }
     }
 }

@@ -1,5 +1,7 @@
-package com.fresca.airport;
+package com.fresca.flight;
 
+import com.fresca.airport.Airport;
+import com.fresca.airport.AirportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

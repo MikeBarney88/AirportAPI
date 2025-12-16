@@ -2,6 +2,8 @@ package com.fresca.airport;
 
 import com.fresca.city.City;
 import com.fresca.city.CityRepository;
+import com.fresca.gate.Gate;
+import com.fresca.gate.GateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
