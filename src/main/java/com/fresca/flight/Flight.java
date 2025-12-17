@@ -19,6 +19,10 @@ public class Flight {
     @JoinColumn(name = "from_airport_id", nullable = false)
     private Airport fromAirport;
 
+    @ManyToOne
+    @JoinColumn(name = "to_airport_id", nullable = false)
+    private Airport toAirport;
+
     @Column(nullable = false)
     private LocalDateTime scheduledTime;
 
@@ -55,6 +59,14 @@ public class Flight {
 
     public void setFromAirport(Airport fromAirport) {
         this.fromAirport = fromAirport;
+    }
+
+    public Airport getToAirport() {
+        return this.toAirport;
+    }
+
+    public void setToAirport(Airport toAirport) {
+        this.toAirport = toAirport;
     }
 
     public LocalDateTime getScheduledTime() {

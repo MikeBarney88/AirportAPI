@@ -19,13 +19,19 @@ public class FlightService {
 
 
     // Create flight
-    public Flight createFlight(Flight flight, Long fromAirportId) {
-        Optional<Airport> airportOpt = airportRepository.findById(fromAirportId);
-        if (airportOpt.isEmpty()) {
+    public Flight createFlight(Flight flight, Long fromAirportId, Long toAirportId) {
+        Optional<Airport> fromAirportOpt = airportRepository.findById(fromAirportId);
+        if (fromAirportOpt.isEmpty()) {
             throw new IllegalArgumentException("Airport not found with id: " + fromAirportId);
         }
 
-        flight.setFromAirport(airportOpt.get());
+        Optional<Airport> toAirportOpt = airportRepository.findById(toAirportId);
+        if (toAirportOpt.isEmpty()) {
+            throw new IllegalArgumentException("Airport not found with id: " + toAirportId);
+        }
+
+        flight.setFromAirport(fromAirportOpt.get());
+        flight.setToAirport(toAirportOpt.get());
         return flightRepository.save(flight);
     }
 
