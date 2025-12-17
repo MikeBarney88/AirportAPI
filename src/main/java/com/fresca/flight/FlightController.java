@@ -18,9 +18,9 @@ public class FlightController {
 
     @PostMapping
     public ResponseEntity<Flight> createFlight(@RequestBody Flight flight,
-                                               @RequestParam Long fromAirportId) {
+                                               @RequestParam Long fromAirportId, @RequestParam Long toAirportId) {
         try {
-            Flight createdFlight = flightService.createFlight(flight, fromAirportId);
+            Flight createdFlight = flightService.createFlight(flight, fromAirportId, toAirportId);
             return new ResponseEntity<>(createdFlight, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

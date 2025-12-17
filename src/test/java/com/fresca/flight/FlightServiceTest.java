@@ -38,18 +38,22 @@ public class FlightServiceTest {
 
         Airport airport = new Airport("St. John's Airport", "YYT");
         airport.setId(1L);
+        Airport airport2 = new Airport("Some Other Airport", "SOA");
+        airport2.setId(2L);
 
         Flight saved = new Flight();
         saved.setId(1L);
         saved.setFlightNumber("AC101");
         saved.setFromAirport(airport);
+        saved.setToAirport(airport2);
         saved.setScheduledTime(LocalDateTime.of(2024, 12, 15, 8, 30));
         saved.setStatus("On Time");
 
         when(airportRepository.findById(1L)).thenReturn(Optional.of(airport));
+        when(airportRepository.findById(2L)).thenReturn(Optional.of(airport2));
         when(flightRepository.save(any(Flight.class))).thenReturn(saved);
 
-        Flight result = flightService.createFlight(input, 1L);
+        Flight result = flightService.createFlight(input, 1L, 2L);
 
         assertNotNull(result);
         assertEquals(1L, result.getId());
