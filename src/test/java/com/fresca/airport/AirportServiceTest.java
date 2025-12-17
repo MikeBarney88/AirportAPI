@@ -1,5 +1,8 @@
 package com.fresca.airport;
 
+import com.fresca.city.City;
+import com.fresca.city.CityRepository;
+import com.fresca.gate.GateRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,6 +23,12 @@ public class AirportServiceTest {
     @Mock
     AirportRepository airportRepository;
 
+    @Mock
+    CityRepository cityRepository;
+
+    @Mock
+    GateRepository gateRepository;
+
     @InjectMocks
     AirportService airportService;
 
@@ -30,19 +39,26 @@ public class AirportServiceTest {
         input.setName("St. John's International Airport");
         input.setCode("YYT");
 
+        City city = new City();
+        city.setId(1L);
+        city.setName("St. John's");
+
         Airport saved = new Airport();
         saved.setId(1L);
         saved.setName("St. John's International Airport");
         saved.setCode("YYT");
+        saved.setCity(city);
 
+        when(cityRepository.findById(1L)).thenReturn(Optional.of(city));
         when(airportRepository.save(any(Airport.class))).thenReturn(saved);
 
-        Airport result = airportService.createAirport(input, null);
+        Airport result = airportService.createAirport(input, 1L);
 
         assertNotNull(result);
         assertEquals(1L, result.getId());
         assertEquals("St. John's International Airport", result.getName());
         assertEquals("YYT", result.getCode());
+        verify(cityRepository).findById(1L);
         verify(airportRepository).save(any(Airport.class));
     }
 
