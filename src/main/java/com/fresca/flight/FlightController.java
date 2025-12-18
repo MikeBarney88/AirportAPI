@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/flights")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://fresca-airport-frontend.s3-website-us-east-1.amazonaws.com/")
 public class FlightController {
 
     @Autowired
