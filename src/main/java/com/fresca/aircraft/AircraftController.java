@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/aircrafts")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://fresca-airport-frontend.s3-website-us-east-1.amazonaws.com/")
 public class AircraftController {
 
     private final AircraftService service;

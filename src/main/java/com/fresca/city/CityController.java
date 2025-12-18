@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://fresca-airport-frontend.s3-website-us-east-1.amazonaws.com/")
 public class CityController {
     @Autowired
     private CityService cityService;
