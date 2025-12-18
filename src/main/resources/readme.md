@@ -3,14 +3,14 @@
 A RESTful API built with Spring Boot for managing cities, airports, passengers, and aircraft.
 Technology Stack
 
-- Java 17+
+- Java 21
 - Spring Boot 3.x
 - Spring Data JPA
 - MySQL 8.x
 - Maven
 
 ### Project Structure
-![img.png](ProjectStructure.png)
+![ProjectStructure.png](ProjectStructure.png)
 
 ### Database Schema
 
@@ -19,10 +19,18 @@ Technology Stack
 - Airport: id, name, code, city_id (FK)
 - Passenger: id, firstName, lastName, phoneNumber, city_id (FK)
 - Aircraft: id, type, airlineName, numberOfPassengers
+- Flight: id, flightNumber, from_airport_id (FK), to_airport_id (FK), scheduledTime, status
+- Gate: id, gateNumber, terminal, status, airport_id (FK), currentFlight
 
 #### Relationships
 - City (1) → (Many) Airports
 - City (1) → (Many) Passengers
+- Airport (1) → (Many) Gates
+- Airport (1) → (Many) Flights (departing, via fromAirport)
+- Airport (1) → (Many) Flights (arriving, via toAirport)
+- Flight (Many) → (1) Airport (departure airport)
+- Flight (Many) → (1) Airport (arrival airport)
+- Gate (Many) → (1) Airport
 - Passenger (Many) ↔ (Many) Aircraft
 - Aircraft (Many) ↔ (Many) Airports
 
@@ -77,6 +85,27 @@ The API will start on http://localhost:8080
 - POST /aircraft/{aircraftId}/airports/{airportId} - Link aircraft to airport
 - PUT /aircraft/{id} - Update aircraft
 - DELETE /aircraft/{id} - Delete aircraft
+
+#### Gate
+- POST /airports/{airportId}/gates - Create gate for airport 
+- GET /airports/{airportId}/gates - Get all gates for airport
+- GET /airports/{airportId}/gates/available - Get available gates for airport
+- GET /airports/gates/{gateNumber} - Get gate by gate number
+- PUT /airports/gates/{gateNumber} - Update gate
+- PUT /airports/gates/{gateNumber}/status - Update gate status
+- DELETE /airports/gates/{gateNumber} - Delete gate
+
+#### Flights
+
+- POST /flights?fromAirportId={id}&toAirportId={id} - Create flight
+- GET /flights - Get all flights
+- GET /flights/{id} - Get flight by ID
+- GET /flights/number/{flightNumber} - Get flight by flight number
+- GET /flights/airport/{code} - Get flights by airport code
+- PUT /flights/{id} - Update flight
+- PATCH /flights/{id}/status - Update flight status
+- DELETE /flights/{id} - Delete flight
+
 
 ### Testing
 
